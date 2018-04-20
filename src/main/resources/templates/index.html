@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table border="1px">
+        <tr>
+            <td>姓名</td>
+            <td>年龄</td>
+            <td>更新时间</td>
+            <td>修改时间</td>
+        </tr>
+        <tr th:each=" girl : ${girlList}">
+            <td th:align="center"  style="padding: 5px"  th:text="${girl.name}">name</td>
+            <td th:align="center" style="padding: 5px" th:text="${girl.age}">22</td>
+            <td  th:align="center" style="padding: 5px"  th:text="${girl.gmtCreate}">2015</td>
+            <td  th:align="center"  style="padding: 5px" th:text="${girl.getGmtModified()}">2012</td>
+        </tr>
+    </table>
+
+
+</body>
+</html>

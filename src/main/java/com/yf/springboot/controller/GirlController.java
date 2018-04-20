@@ -3,12 +3,14 @@ package com.yf.springboot.controller;
 import com.yf.springboot.model.TbGirl;
 import com.yf.springboot.repository.GirlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
 
-@RestController
+@Controller
 public class GirlController {
 
     @Autowired
@@ -19,8 +21,10 @@ public class GirlController {
      * @return
      */
     @GetMapping("/girls")
-    public List<TbGirl> girlsList(){
-        return girlRepository.findAll();
+    public String girlsList(Model model){
+        List<TbGirl> girlList = girlRepository.findAll();
+        model.addAttribute("girlList",girlList);
+        return "index";
     }
 
 
@@ -30,6 +34,7 @@ public class GirlController {
      * @return
      */
     @PutMapping("/girl")
+    @ResponseBody
     public  TbGirl putGirl(TbGirl girl){
         girl.setGmtCreate(new Date());
         girl.setGmtModified(new Date());
@@ -42,6 +47,7 @@ public class GirlController {
      * @return
      */
     @GetMapping("/{id}/girl")
+    @ResponseBody
     public  TbGirl findOne(@PathVariable("id") Long id){
         return girlRepository.findById(id).get();
     }
@@ -52,6 +58,7 @@ public class GirlController {
      * @return
      */
     @DeleteMapping("/{id}/girl")
+    @ResponseBody
     public  String  delGirl(@PathVariable("id") Long id){
         girlRepository.deleteById(id);
         return "删除成功";
@@ -66,6 +73,7 @@ public class GirlController {
      * @return
      */
     @PostMapping("/{id}/girl")
+    @ResponseBody
     public  TbGirl updateGirl(@PathVariable("id") Long id,@RequestParam("name") String name,@RequestParam("cupSize") String cupSize,@RequestParam("imageHeader") String imageHeader){
         TbGirl tbGirl = girlRepository.getOne(id);
         tbGirl.setGmtModified(new Date());
@@ -81,6 +89,7 @@ public class GirlController {
      * @return
      */
     @GetMapping("/{cupSize}/girls")
+    @ResponseBody
     public  List<TbGirl> findGirlsByCupSize(@PathVariable("cupSize") String cupSize){
         return girlRepository.findTbGirlsByCupSize(cupSize);
     }
